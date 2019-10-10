@@ -26,3 +26,12 @@ MIPS流水线处理器仿真器
 ## 环境
 
 * python>=3.7
+* pip>=19.2.3
+
+## 安装依赖
+
+```
+> pip install -r requirements.txt
+```
+
+## 运行
