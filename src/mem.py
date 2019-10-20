@@ -1,7 +1,9 @@
 from myhdl import always, block, intbv, instances
 
-i_mem = [intbv(0)[8:], intbv(1)[8:], intbv(2)[8:], intbv(3)[8:],
-         intbv(4)[8:], intbv(5)[8:], intbv(6)[8:], intbv(7)[8:]]
+i_mem = [
+    intbv(0)[8:], intbv(1)[8:], intbv(2)[8:], intbv(3)[8:],
+    intbv(4)[8:], intbv(5)[8:], intbv(6)[8:], intbv(7)[8:]
+]
 
 d_mem = []
 
@@ -23,6 +25,18 @@ def IRAM(clk, out, address):
         print(f'fetch instruction: {bin(out.next)}')
 
     return access
+
+
+def parse_code(code):
+    return []
+
+
+def set_instruction_mem(code):
+    results = parse_code(code)
+    i_mem.append(intbv(results[0][32:]))
+    i_mem.append(intbv(results[1][32:]))
+    i_mem.append(intbv(results[2][32:]))
+    i_mem.append(intbv(results[3][32:]))
 
 
 @block
