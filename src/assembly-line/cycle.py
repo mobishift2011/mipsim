@@ -18,23 +18,21 @@ def PC(clk, address):
 
     return count
 
-@block
-def Print(clk,alu_out, RegDst, ALUSrc, PCSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp1, ALUOp0, Zero):
-    @always(clk.negedge)
-    def output_result():
-        print(f'RegDst: {RegDst}')
-        print(f"ALUSrc: {ALUSrc}")
-        print(f"PCSrc: {PCSrc}")
-        print(f"MemtoReg: {MemtoReg}")
-        print(f"RegWrite: {RegWrite}")
-        print(f"MemRead: {MemRead}")
-        print(f"MemWrite: {MemWrite}")
-        print(f"Branch: {Branch}")
-        print(f"ALUOp1: {ALUOp1}")
-        print(f"ALUOp0: {ALUOp0}")
-        print(f"Zero: {Zero}")
-        print("dram:", d_mem[0:12])
-    return output_result
+
+def output_result(alu_out, RegDst, ALUSrc, PCSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp1, ALUOp0, Zero):
+    print(f'RegDst: {RegDst}')
+    print(f"ALUSrc: {ALUSrc}")
+    print(f"PCSrc: {PCSrc}")
+    print(f"MemtoReg: {MemtoReg}")
+    print(f"RegWrite: {RegWrite}")
+    print(f"MemRead: {MemRead}")
+    print(f"MemWrite: {MemWrite}")
+    print(f"Branch: {Branch}")
+    print(f"ALUOp1: {ALUOp1}")
+    print(f"ALUOp0: {ALUOp0}")
+    print(f"Zero: {Zero}")
+    print("dram:", d_mem[0:12])
+
 
 @block
 def SingleCycle(period):
@@ -83,8 +81,6 @@ def SingleCycle(period):
     alu = ALU(iram_out, alu_out, read_data1,
               read_data2, Zero, ALUOp0, ALUOp1, ALUSrc)
 
-    prt = Print(clk,alu_out, RegDst, ALUSrc, PCSrc, MemtoReg, 
-                        RegWrite, MemRead, MemWrite, Branch, ALUOp1, ALUOp0, Zero)
     @instance
     def drive_clk():
         """
@@ -100,6 +96,8 @@ def SingleCycle(period):
             print(
                 f"========================cycle {count} start========================")
             yield delay(half_clk)
+            output_result(alu_out, RegDst, ALUSrc, PCSrc, MemtoReg,
+                          RegWrite, MemRead, MemWrite, Branch, ALUOp1, ALUOp0, Zero,)
             clk.next = 0
 
     return instances()
